@@ -150,6 +150,7 @@ module Typus
 
       end
 
+      # TODO: This ClassMethod has been already taken to the AbstractModel.
       def typus_export_formats
         data = Typus::Configuration.config[name]
         !data['export'].nil? ? data['export'].extract_settings : []
