@@ -17,6 +17,7 @@ module Typus
         return hash
       end
 
+      # TODO: This action is already included in the abstract model.
       def typus_description
         Typus::Configuration.config[self.name]['description']
       end

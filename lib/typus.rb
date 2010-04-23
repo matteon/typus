@@ -148,6 +148,7 @@ Developed by <a href="http://intraducibles.com" rel="external">intraducibles.com
 
       # Typus Active Record extensions and mixins
       require "typus/orm"
+      require "typus/abstract_model"
       require "typus/user"
 
       # Vendor
