@@ -192,6 +192,7 @@ module Typus
 
       end
 
+      # TODO: This ClassMethod has been already taken to the AbstractModel.
       # We are able to define how to display dates on Typus
       def typus_date_format(attribute = :default)
         Typus::Configuration.config[name]['fields']['options']['date_formats'][attribute.to_s].to_sym
