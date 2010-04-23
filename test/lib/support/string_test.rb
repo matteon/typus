@@ -31,12 +31,6 @@ class StringTest < ActiveSupport::TestCase
     assert_equal Delayed::Task, "admin/delayed/tasks".extract_class
   end
 
-  def test_extract_human_name
-    assert_equal "Post", "admin/posts".extract_human_name
-    assert_equal "Typus user", "admin/typus_users".extract_human_name
-    assert_equal "Task", "admin/delayed/tasks".extract_human_name
-  end
-
   def test_should_return_post_actions_on_index
     assert_equal %w( cleanup ), "Post".typus_actions_on("index")
     assert_equal %w( cleanup ), "Post".typus_actions_on(:index)

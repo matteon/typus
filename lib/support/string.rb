@@ -16,10 +16,6 @@ class String
     remove_prefix.camelize.classify.constantize
   end
 
-  def extract_human_name
-    extract_class.model_name.human.gsub('/', ' ')
-  end
-
   # OPTIMIZE: Find a way to remove the rescue.
   def typus_actions_on(filter)
     if settings = Typus::Configuration.config[self]['actions'][filter.to_s]
