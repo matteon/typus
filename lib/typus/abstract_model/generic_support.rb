@@ -19,6 +19,14 @@ module Typus
         :db
       end
 
+      # We are able to define which template to use to render the attribute 
+      # within the form
+      def template(attribute)
+        Typus::Configuration.config[model.model_name]['fields']['options']['templates'][attribute.to_s]
+      rescue
+        nil
+      end
+
     end
 
   end

@@ -200,6 +200,7 @@ module Typus
         :db
       end
 
+      # TODO: This ClassMethod has been already taken to the AbstractModel.
       # We are able to define which template to use to render the attribute 
       # within the form
       def typus_template(attribute)
