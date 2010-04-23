@@ -321,8 +321,3 @@ module Typus
   end
 
 end
-
-if defined?(ActiveRecord)
-  ActiveRecord::Base.extend Typus::Orm::ClassMethods
-  ActiveRecord::Base.send :include, Typus::Orm::InstanceMethods
-end
