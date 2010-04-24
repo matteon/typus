@@ -59,7 +59,7 @@ module Admin
     def build_pagination
       options = { :order => @model_to_relate.typus_order_by, :conditions => set_conditions }
       items_count = @resource.find(params[:id]).send(@field).count(:conditions => set_conditions)
-      items_per_page = @model_to_relate.typus_options_for(:per_page)
+      items_per_page = @model_to_relate.options_for(:per_page)
 
       @pager = ::Paginator.new(items_count, items_per_page) do |offset, per_page|
         options.merge!({:limit => per_page, :offset => offset})
@@ -86,7 +86,7 @@ module Admin
 
     def build_add_new(options = {})
       default_options = { :controller => @field, :action => "new", 
-                          :resource => @resource.class_name, :resource_id => @item.id, 
+                          :resource => @resource.model_name, :resource_id => @item.id, 
                           :back_to => @back_to }
 
       if set_condition && @current_user.can?("create", @model_to_relate)
@@ -97,7 +97,7 @@ module Admin
     end
 
     def set_condition
-      if @resource.typus_user_id? && @current_user.is_not_root?
+      if @resource.user_id? && @current_user.is_not_root?
         @item.owned_by?(@current_user)
       else
         true
@@ -105,7 +105,7 @@ module Admin
     end
 
     def set_conditions
-      if @model_to_relate.typus_options_for(:only_user_items) && @current_user.is_not_root?
+      if @model_to_relate.options_for(:only_user_items) && @current_user.is_not_root?
         { Typus.user_fk => @current_user }
       end
     end

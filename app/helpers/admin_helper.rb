@@ -33,7 +33,8 @@ module AdminHelper
     end
 
     Typus.models_on_header.each do |model|
-      links << (link_to_unless_current model.constantize.model_name.human.pluralize, :controller => "/admin/#{model.tableize}")
+      klass = Typus::AbstractModel.new(model)
+      links << (link_to_unless_current model.model_name.human.pluralize, :controller => "/admin/#{model.tableize}")
     end
 
     if Rails.application.routes.routes.map(&:name).include?(:root)

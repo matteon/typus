@@ -10,7 +10,7 @@ module Admin
 
         fields.each do |key, value|
 
-          if template = @resource.typus_template(key)
+          if template = @resource.template(key)
             html << typus_template_field(key, template, options)
             next
           end
@@ -65,7 +65,7 @@ module Admin
       @back_to = url_for(:controller => params[:controller], :action => params[:action], :id => params[:id])
 
       returning(String.new) do |html|
-        @resource.typus_defaults_for(:relationships).each do |relationship|
+        @resource.defaults_for(:relationships).each do |relationship|
 
           association = @resource.reflect_on_association(relationship.to_sym)
 
@@ -93,9 +93,9 @@ module Admin
 
       template_name = "admin/templates/#{template}"
 
-      custom_options = { :start_year => @resource.typus_options_for(:start_year), 
-                         :end_year => @resource.typus_options_for(:end_year), 
-                         :minute_step => @resource.typus_options_for(:minute_step), 
+      custom_options = { :start_year => @resource.options_for(:start_year), 
+                         :end_year => @resource.options_for(:end_year), 
+                         :minute_step => @resource.options_for(:minute_step), 
                          :disabled => attribute_disabled?(attribute), 
                          :include_blank => true }
 

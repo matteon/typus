@@ -156,7 +156,7 @@ module Typus
 
         # Show only related items it @resource has a foreign_key (Typus.user_fk) 
         # related to the logged user.
-        if @resource.typus_user_id?
+        if @resource.user_id?
           condition = { Typus.user_fk => @current_user }
           @conditions = @resource.merge_conditions(@conditions, condition)
         end
@@ -166,7 +166,7 @@ module Typus
       def check_ownership_of_referal_item
         return unless params[:resource] && params[:resource_id]
         klass = params[:resource].classify.constantize
-        return if !klass.typus_user_id?
+        return if !klass.user_id?
         item = klass.find(params[:resource_id])
         raise "You're not owner of this record." unless item.owned_by?(@current_user) || @current_user.is_root?
       end
@@ -175,19 +175,19 @@ module Typus
       # next linking to records from other users.
       def set_conditions
         condition = @current_user.is_root? || 
-                    !@resource.typus_options_for(:only_user_items) || 
+                    !@resource.options_for(:only_user_items) || 
                     !@resource.columns.map(&:name).include?(Typus.user_fk)
         !condition ? { Typus.user_fk => @current_user.id } : {}
       end
 
       def set_attributes_on_create
-        if @resource.typus_user_id?
+        if @resource.user_id?
           @item.attributes = { Typus.user_fk => @current_user.id }
         end
       end
 
       def set_attributes_on_update
-        if @resource.typus_user_id? && @current_user.is_not_root?
+        if @resource.user_id? && @current_user.is_not_root?
           @item.update_attributes(Typus.user_fk => @current_user.id)
         end
       end

@@ -8,7 +8,7 @@
       <%= link_to_unless_current _(key.pluralize), :controller => resource, :action => "index" %>
     </h2>
 
-    <% if @resource.name.eql?(key) %>
+    <% if @resource.model_name.eql?(key) %>
       <ul>
         <% value.each do |v| %>
           <li><%= v %></li>

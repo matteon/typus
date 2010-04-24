@@ -96,7 +96,9 @@ Developed by <a href="http://intraducibles.com" rel="external">intraducibles.com
     end
 
     def models_on_header
-      models.collect { |m| m if m.constantize.typus_options_for(:on_header) }.compact
+      models.map do |model|
+        model if Typus::AbstractModel.new(model).options_for(:on_header)
+      end.compact
     end
 
     # List of resources, which are tableless models.

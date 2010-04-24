@@ -4,7 +4,7 @@ module Admin
 
     def search
 
-      typus_search = @resource.typus_defaults_for(:search)
+      typus_search = @resource.defaults_for(:search)
       return if typus_search.empty?
 
       search_by = typus_search.collect { |x| @resource.human_attribute_name(x) }.to_sentence

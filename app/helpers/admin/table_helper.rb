@@ -43,6 +43,8 @@ module Admin
       content = String.new
 
       fields.each do |key, value|
+        content << table_string_field(key, item, link_options)
+=begin
         content << case value
                    when :boolean then table_boolean_field(key, item)
                    when :datetime then table_datetime_field(key, item, link_options)
@@ -58,19 +60,22 @@ module Admin
                    else
                      table_string_field(key, item, link_options)
                    end
+=end
       end
 
       return raw(content)
     end
 
     def table_default_action(model, item)
-      action = if model.typus_user_id? && @current_user.is_not_root?
+      klass = Typus::AbstractClass.new(model)
+
+      action = if klass.user_id? && @current_user.is_not_root?
                  # If there's a typus_user_id column on the table and logged user is not root ...
-                 item.owned_by?(@current_user) ? item.class.typus_options_for(:default_action_on_item) : 'show'
+                 item.owned_by?(@current_user) ? item.class.options_for(:default_action_on_item) : "show"
                elsif @current_user.cannot?('edit', model)
-                 'show'
+                 "show"
                else
-                 item.class.typus_options_for(:default_action_on_item)
+                 item.options_for(:default_action_on_item)
                end
 
       options = { :controller => "admin/#{item.class.to_resource}", 
@@ -104,7 +109,7 @@ module Admin
 
       case params[:action]
       when 'index'
-        condition = if model.typus_user_id? && @current_user.is_not_root?
+        condition = if model.user_id? && @current_user.is_not_root?
                       item.owned_by?(@current_user)
                     else
                       @current_user.can?('destroy', model)
@@ -120,7 +125,7 @@ module Admin
         # the owners of the owner record.
         # If the owner record doesn't have a foreign key (Typus.user_fk) we look
         # each item to verify the ownership.
-        condition = if @resource.typus_user_id? && @current_user.is_not_root?
+        condition = if @resource.user_id? && @current_user.is_not_root?
                       @item.owned_by?(@current_user)
                     end
         confirm = _("Unrelate {{unrelate_model}} from {{unrelate_model_from}}?", 
@@ -138,7 +143,7 @@ module Admin
 
     def table_belongs_to_field(attribute, item)
 
-      action = item.send(attribute).class.typus_options_for(:default_action_on_item)
+      action = item.send(attribute).class.options_for(:default_action_on_item)
 
       att_value = item.send(attribute)
       content = if !att_value.nil?
@@ -224,14 +229,14 @@ module Admin
     def table_datetime_field(attribute, item, link_options = {} )
 
       date_format = item.class.typus_date_format(attribute)
-      content = !item.send(attribute).nil? ? item.send(attribute).to_s(date_format) : item.class.typus_options_for(:nil)
+      content = !item.send(attribute).nil? ? item.send(attribute).to_s(date_format) : item.class.options_for(:nil)
 
       return content_tag(:td, content)
 
     end
 
     def table_boolean_field(attribute, item)
-      boolean_hash = item.class.typus_boolean(attribute)
+      boolean_hash = item.boolean(attribute)
       status = item.send(attribute)
 
       content = if status.nil?

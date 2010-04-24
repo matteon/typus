@@ -36,14 +36,14 @@ class Admin::ResourcesController < AdminController
 
     @conditions, @joins = @resource.build_conditions(params)
 
-    check_resource_ownerships if @resource.typus_options_for(:only_user_items)
+    check_resource_ownerships if @resource.options_for(:only_user_items)
 
     respond_to do |format|
       format.html do
         generate_html
         select_template
       end
-      @resource.typus_export_formats.each do |f|
+      @resource.export_formats.each do |f|
         format.send(f) { send("generate_#{f}") }
       end
     end
@@ -100,13 +100,13 @@ class Admin::ResourcesController < AdminController
   end
 
   def show
-    check_resource_ownership and return if @resource.typus_options_for(:only_user_items)
+    check_resource_ownership and return if @resource.options_for(:only_user_items)
 
     respond_to do |format|
       format.html { select_template }
       # TODO: Responders for multiple file formats. For example PDF ...
       format.xml do
-        fields = @resource.typus_fields_for(:xml).collect { |i| i.first }
+        fields = @resource.fields_for(:xml).collect { |i| i.first }
         render :xml => @item.to_xml(:only => fields)
       end
     end
@@ -242,8 +242,10 @@ class Admin::ResourcesController < AdminController
   private
 
   def get_model
-    @resource = params[:controller].extract_class
-    @object_name = ActionController::RecordIdentifier.singular_class_name(@resource)
+    klass = params[:controller].extract_class
+
+    @resource = Typus::AbstractModel.new(klass)
+    @object_name = ActionController::RecordIdentifier.singular_class_name(klass)
   end
 
   ##
@@ -261,16 +263,16 @@ class Admin::ResourcesController < AdminController
               else params[:action]
               end
 
-    @fields = @resource.typus_fields_for(mapping)
+    @fields = @resource.fields_for(mapping)
   end
 
   def set_order
     params[:sort_order] ||= 'desc'
-    @order = params[:order_by] ? "#{@resource.table_name}.#{params[:order_by]} #{params[:sort_order]}" : @resource.typus_order_by
+    @order = params[:order_by] ? "#{@resource.table_name}.#{params[:order_by]} #{params[:sort_order]}" : @resource.order_by
   end
 
   def redirect_on_success
-    action = @resource.typus_options_for(:action_after_save)
+    action = @resource.options_for(:action_after_save)
 
     case params[:action]
     when "create"

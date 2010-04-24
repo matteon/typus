@@ -61,7 +61,7 @@ module Admin
     end
 
     def link_to_edit(klass = @resource)
-      condition = if klass.typus_user_id? && @current_user.is_not_root?
+      condition = if klass.user_id? && @current_user.is_not_root?
                     @item.owned_by?(@current_user)
                   else
                     @current_user.can?('update', klass)
@@ -78,7 +78,7 @@ module Admin
     # TODO: This method should show a list of actions for the actual record.
     def custom_actions(klass)
       options = { :controller => klass.to_resource }
-      items = klass.typus_actions_on("index").map do |action|
+      items = klass.actions_on("index").map do |action|
         if @current_user.can?(action, klass)
           (link_to _(action.humanize), options.merge(:action => action).to_hash.symbolize_keys)
         end

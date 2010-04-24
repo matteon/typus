@@ -7,7 +7,7 @@ module Typus
     def generate_html
 
       items_count = @resource.count(:joins => @joins, :conditions => @conditions)
-      items_per_page = @resource.typus_options_for(:per_page)
+      items_per_page = @resource.options_for(:per_page)
 
       @pager = ::Paginator.new(items_count, items_per_page) do |offset, per_page|
         data(:limit => per_page, :offset => offset)
@@ -22,7 +22,7 @@ module Typus
     #       We should find a way to be able to process data.
     def generate_csv
 
-      fields = @resource.typus_fields_for(:csv)
+      fields = @resource.fields_for(:csv)
 
       require 'csv'
       if CSV.const_defined?(:Reader)
@@ -68,7 +68,7 @@ module Typus
     def generate_xml; export(:xml); end
 
     def export(format)
-      fields = @resource.typus_fields_for(format).collect { |i| i.first }
+      fields = @resource.fields_for(format).collect { |i| i.first }
       methods = fields - @resource.column_names
       except = @resource.column_names - fields
       render format => data.send("to_#{format}", :methods => methods, :except => except)

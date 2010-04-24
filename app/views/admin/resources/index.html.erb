@@ -16,7 +16,7 @@
 <%= typus_block %>
 
 <% unless @items.count.zero? -%>
-  <%= raw build_list(@resource, @fields, @items) %>
+  <%= build_list(@resource, @fields, @items) %>
   <%= pagination %>
 <% else %>
   <div id="flash" class="notice">

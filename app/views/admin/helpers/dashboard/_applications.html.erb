@@ -10,7 +10,7 @@
 
       <%
 
-        klass = model.constantize
+        klass = Typus::AbstractModel.new(model)
         klass_resource = klass.to_resource
         klass_human_name = klass.model_name.human.gsub("/", " ").pluralize
 
@@ -24,7 +24,7 @@
 
         <td>
           <%= link_to klass_human_name, admin_items_path %><br />
-          <small><%= _(klass.typus_description) if !klass.typus_description.nil? %></small>
+          <small><%= _(klass.description) if !klass.description.nil? %></small>
         </td>
 
         <td class="right">

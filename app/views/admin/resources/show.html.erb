@@ -21,12 +21,12 @@
     raw_data = @item.send(field.first)
     data = case data_type
            when :boolean
-             boolean_hash = @resource.typus_boolean(field.first)
-             !raw_data.nil? ? boolean_hash["#{raw_data}".to_sym] : @resource.typus_options_for(:nil)
+             boolean_hash = @resource.boolean(field.first)
+             !raw_data.nil? ? boolean_hash["#{raw_data}".to_sym] : @resource.options_for(:nil)
            when :belongs_to
              if !raw_data.nil?
                controller = raw_data.class.to_resource
-               action = raw_data.class.typus_options_for(:default_action_on_item)
+               action = raw_data.class.options_for(:default_action_on_item)
                options = { :controller => controller, :action => action, :id => raw_data }
                link_to raw_data.to_label, options
              else

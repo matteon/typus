@@ -4,7 +4,7 @@ module Admin
 
     def filters
 
-      typus_filters = @resource.typus_filters
+      typus_filters = @resource.filters
       return if typus_filters.empty?
 
       current_request = request.env['QUERY_STRING'] || []
@@ -69,7 +69,7 @@ module Admin
     end
 
     def boolean_filter(request, filter)
-      items = @resource.typus_boolean(filter)
+      items = @resource.boolean(filter)
       build_filters(filter, items)
     end
 
