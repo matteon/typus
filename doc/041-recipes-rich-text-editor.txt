@@ -10,21 +10,18 @@ $ tar xvzf ckeditor_3.3.1.tar.gz
 $ rm ckeditor_3.3.1.tar.gz
 ----
 
-Create the file `app/views/admin/pages/_edit.html.erb` and copy the 
+Edit the file `public/javascripts/admin/application.js` and copy the 
 following snippet. This will replace all `textarea` with **CKEditor**.
 
 ----
-<% content_for :javascripts do %>
-  <%= javascript_include_tag "ckeditor/ckeditor" %>
-  <script type="text/javascript">
-    $(function() {
-      if ($('textarea').length > 0) {
-        var data = $('textarea');
-        $.each(data, function(i) { CKEDITOR.replace(data[i].id); });
-      }
-    });
-  </script>
-<% end %>
+document.write("<script type='text/javascript' src='/javascripts/ckeditor/ckeditor.js'></script>"); 
+
+$(function() {
+  if ($('textarea').length > 0) {
+    var data = $('textarea');
+    $.each(data, function(i) { CKEDITOR.replace(data[i].id); });
+  }
+});
 -----
 
 Now you can configure **CKEditor** editing `public/javascripts/ckeditor/config.js`. 
