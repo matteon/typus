@@ -51,15 +51,7 @@ and migrate your database.
 
 Start the application server and go to <http://0.0.0.0:3000/admin>.
 
-## Support
-
-As an experiment we encourage you to support this project by 
-[donating][1] 90 &euro; if you are a developer or studio. Donations do 
-allow us to spend more time working and supporting the project.
-
 ## License
 
 Copyright &copy; 2007-2010 Francesc Esplugas Marti, released under the 
 MIT license
-
-[1]:http://labs.intraducibles.com/projects/typus/donate
