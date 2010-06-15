@@ -41,7 +41,7 @@ extensible enough to match lots of use cases.
 
 Install from GitHub the latest version which is compatible with Rails 2.3.8.
 
-    $ script/plugin install git://github.com/fesplugas/typus.git
+    $ script/plugin install git://github.com/fesplugas/typus.git -r 2-3-stable
 
 Once `typus` is installed, run the generator to create required files 
 and migrate your database.
