@@ -35,21 +35,12 @@ application.
 $ script/generate typus
 ----
 
-By default **Typus** will use an http authentication but if you want 
-to use a better authentication system you need to run a second generator.
+This generator will create a new model, some settings which will be stored 
+under `config/typus` folder and will also create a migration. You can see 
+some options of this generator running the following command.
 
 ----
-$ script/generate typus_migration
-$ rake db:migrate
-----
-
-This generator will create a new model, `AdminUser`, in your application, 
-some settings which will be stored under `config/typus` folder and will 
-also create a migration. You can see some options of this generator running 
-the following command.
-
-----
-$ script/generate typus_migration -h
+$ script/generate typus -h
 ----
 
 === Login into Typus ===
