@@ -34,7 +34,7 @@ enough to match lots of use cases.
 Install from GitHub the latest version which it's compatible with 
 <tt>Rails 2.3.8</tt>.
 
-    $ script/plugin install git://github.com/fesplugas/typus.git -r 2-3-unstable
+    $ script/plugin install git://github.com/fesplugas/typus.git
 
 Once `typus` is installed, run the generator to create required files and 
 migrate your database.
