@@ -20,10 +20,14 @@
              boolean_hash = @resource[:class].typus_boolean(field.first)
              !raw_data.nil? ? boolean_hash["#{raw_data}".to_sym] : @resource[:class].typus_options_for(:nil)
            when :belongs_to
-             controller = raw_data.class.name.extract_resource.pluralize
-             action = raw_data.class.typus_options_for(:default_action_on_item)
-             options = { :controller => controller, :action => action, :id => raw_data }
-             link_to raw_data.to_label, options if !raw_data.nil?
+             if !raw_data.nil?
+               controller = raw_data.class.name.extract_resource.pluralize
+               action = raw_data.class.typus_options_for(:default_action_on_item)
+               options = { :controller => controller, :action => action, :id => raw_data }
+               link_to raw_data.to_label, options
+             else
+               h(raw_data)
+             end
            when :file
              typus_preview(@item, field.first)
            when :text

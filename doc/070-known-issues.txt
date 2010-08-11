@@ -1,3 +1,0 @@
-== Known Issues ==
-
-Here I will a collection of known issues and limitations related to Typus.

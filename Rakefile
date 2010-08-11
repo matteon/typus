@@ -31,28 +31,6 @@ task :release => :build do
   system "gem push typus-#{version}"
 end
 
-namespace :site do
-
-  desc 'Regenerate the documentation'
-  task :build do
-    command = `which asciidoc`.strip
-    unless command.empty?
-      puts "Building site using `asciidoc`."
-      system "cd doc && #{command.strip} -a icons -a toc -o site/index.html 000-index.txt"
-    else
-      puts "AsciiDoc is not installed."
-    end
-  end
-
-  desc 'Update the website'
-  task :deploy => :build do
-    Dir.chdir("doc/site") do
-      sh %(scp -r ./ fesplugas@labs.intraducibles.com:~/public_html/labs.intraducibles.com/current/public/projects/typus/documentation)
-    end
-  end
-
-end
-
 desc 'Generate specdoc-style documentation from tests'
 task :specs do
 
