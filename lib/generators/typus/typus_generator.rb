@@ -31,6 +31,7 @@ Description:
 
       def generate_initializer
         template "config/initializers/typus.rb", "config/initializers/typus.rb"
+        template "config/initializers/typus_resources.rb", "config/initializers/typus_resources.rb"
       end
 
       def copy_assets

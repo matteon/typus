@@ -41,7 +41,7 @@ Examples:
       end
 
       def generate_initializer
-        template "config/initializers/typus_migration.rb", "config/initializers/typus_session.rb"
+        template "config/initializers/typus_migration.rb", "config/initializers/typus_migration.rb"
       end
 
       def generate_models
