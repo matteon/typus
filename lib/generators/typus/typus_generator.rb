@@ -29,21 +29,25 @@ Description:
         Time.now.utc.to_s(:number)
       end
       
-      # def add_configr_gem
-      #   gem 'configr',    '1.0.1'
-      # end
-      # 
-      # def generate_configr_configuration_files
-      #   template "config/initializers/configr.rb", "config/initializers/configr.rb"
-      #   template "config/configr/default.yml", "config/configr.yml"
-      #   %w{ development test production }.each do |env|
-      #     template "config/configr/env.yml", "config/environments/#{env}.yml"
-      #   end
-      # end
-      # 
-      # def add_paperclip_gem
-      #   gem 'paperclip',  '2.3.3'
-      # end
+      def add_configr_gem
+        gem 'configr',    '1.0.1'
+      end
+      
+      def generate_configr_configuration_files
+        file "config/initializers/configr.rb", <<-FILE        
+default_configuration     = YAML.load(File.open(Rails.root.join('config', 'configr.yml'))) || {}
+environment_configuration = YAML.load(File.open(Rails.root.join('config', 'environments', "#{Rails.env}.yml"))) || {}
+AppConfig = Configr::Configuration.configure(YAML.dump(default_configuration.merge(environment_configuration)))
+FILE
+        template "config/configr/default.yml", "config/configr.yml"
+        %w{ development test production }.each do |env|
+          template "config/configr/env.yml", "config/environments/#{env}.yml"
+        end
+      end
+      
+      def add_paperclip_gem
+        gem 'paperclip',  '2.3.3'
+      end
 
       def generate_initializer
         template "config/initializers/typus.rb", "config/initializers/typus.rb"
