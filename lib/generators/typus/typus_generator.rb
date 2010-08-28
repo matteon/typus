@@ -34,13 +34,9 @@ Description:
       end
       
       def generate_configr_configuration_files
-        create_file "config/initializers/configr.rb", <<-FILE        
-default_configuration     = YAML.load(File.open(Rails.root.join('config', 'configr.yml'))) || {}
-environment_configuration = YAML.load(File.open(Rails.root.join('config', 'environments', "\#{Rails.env}.yml"))) || {}
-AppConfig = Configr::Configuration.configure(YAML.dump(default_configuration.merge(environment_configuration)))
-FILE
+        copy_file 'config/initializers/configr.rb'
         %w( development test production ).each do |e|
-          template "config/configr/env.yml", "config/environments/#{e}.yml"
+          copy_file "config/configr/env.yml", "config/environments/#{e}.yml"
         end
       end
       
