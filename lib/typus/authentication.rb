@@ -56,9 +56,11 @@ module Typus
         back_to = (request.env['REQUEST_URI'] == admin_dashboard_path) ? nil : request.env['REQUEST_URI']
         raise _("Typus user has been disabled.")
       end
-
-      I18n.locale = @current_user.preferences[:locale]
-
+      
+      if (preferences = @current_user.preferences).is_a?(Hash) && !preferences[:locale].blank?
+        I18n.locale = preferences[:locale]
+      end
+      
     rescue Exception => error
       flash[:notice] = error.message
       session[:typus_user_id] = nil
