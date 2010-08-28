@@ -60,7 +60,8 @@ class Admin::ResourcesController < AdminController
   # created we also create the relationship between these items.
   #
   def create
-    @item = @resource.new(params[@object_name])
+    @item ||= @resource.new
+    @item.update_attributes(params[@object_name])
 
     set_attributes_on_create
 
