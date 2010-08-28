@@ -14,7 +14,7 @@ module Typus
 
       Typus.reload!
 
-      class_option :admin_title, :default => Rails.root.basename.capitalize
+      class_option :admin_title, :default => Rails.root.basename.to_s.capitalize
 
       desc <<-DESC
 Description:
