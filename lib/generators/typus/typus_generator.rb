@@ -34,13 +34,12 @@ Description:
       end
       
       def generate_configr_configuration_files
-#         file "config/initializers/configr.rb", <<-FILE        
-# default_configuration     = YAML.load(File.open(Rails.root.join('config', 'configr.yml'))) || {}
-# environment_configuration = YAML.load(File.open(Rails.root.join('config', 'environments', "\#{Rails.env}.yml"))) || {}
-# AppConfig = Configr::Configuration.configure(YAML.dump(default_configuration.merge(environment_configuration)))
-# FILE
-        template "config/configr/default.yml", "config/configr.yml"
-        %w{ development test production }.each do |e|
+        create_file "config/initializers/configr.rb", <<-FILE        
+default_configuration     = YAML.load(File.open(Rails.root.join('config', 'configr.yml'))) || {}
+environment_configuration = YAML.load(File.open(Rails.root.join('config', 'environments', "\#{Rails.env}.yml"))) || {}
+AppConfig = Configr::Configuration.configure(YAML.dump(default_configuration.merge(environment_configuration)))
+FILE
+        %w( development test production ).each do |e|
           template "config/configr/env.yml", "config/environments/#{e}.yml"
         end
       end
@@ -80,7 +79,7 @@ Description:
           %w( .yml _roles.yml ).each do |file|
             from  = "application#{file}"
             to    = "typus#{file}"
-            if File.exists?(to) then to = "config/typus/#{timestamp}_#{file}" end
+            if File.exists?(to) then to = "config/typus/#{timestamp}_typus#{file}" end
             @configuration = configuration
             template from, to
           end
