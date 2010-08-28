@@ -35,6 +35,15 @@ Description:
       
       def generate_configr_configuration_files
         copy_file 'config/initializers/configr.rb'
+
+        create_file 'config/configr.yml'
+        append_file 'config/configr.yml', <<-FILE
+developer:
+  name: "Your Company"
+  url: "http://www.yourcompany.url"
+admin:
+  email: "admin@email.here"        
+FILE
         %w( development test production ).each do |e|
           copy_file "config/configr/env.yml", "config/environments/#{e}.yml"
         end
