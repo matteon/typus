@@ -177,18 +177,17 @@ module Admin
       file_preview_is_image = item.send("#{attribute}_content_type") =~ /^image\/.+/
 
       content = if has_file_preview && file_preview_is_image
-                  render "admin/helpers/preview",
-                         :attribute   => attribute,
-                         :attachment  => attribute,
-                         :content     => item.send(attribute),
-                         :file_preview_is_image => file_preview_is_image,
-                         :has_file_preview      => has_file_preview,
-                         :href  => link_to item.send("#{attribute}_file_name"), item.send(attribute).url(file_preview),
-                         :item  => item
-                else
-                  link_to item.send(attribute), item.send(attribute).url
-                end
-
+        render "admin/helpers/preview",
+               :attribute   => attribute,
+               :attachment  => attribute,
+               :content     => item.send(attribute),
+               :file_preview_is_image => file_preview_is_image,
+               :has_file_preview      => has_file_preview,
+               :href  => link_to(item.send("#{attribute}_file_name"), item.send(attribute).url(file_preview)),
+               :item  => item
+      else
+        link_to(item.send("#{attribute}_file_name"), item.send(attribute).url)
+      end
       return content_tag(:td, content)
     end
 
