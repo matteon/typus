@@ -314,9 +314,9 @@ class Admin::ResourcesController < AdminController
       unless (associations_id = params[association]).empty?
         old_associations = @item.send(association)
         new_associations = associated_klass.where("id IN (#{associations_id.reject{|u| u.to_i.zero? }.join(',')})")
-        @item.send(association) = new_associations if old_associations != new_associations
+        @item.send("#{association}=", new_associations) if old_associations != new_associations
       else
-        @item.send(association) = []
+        @item.send("#{association}=", [])
       end
     end
   end
