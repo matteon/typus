@@ -29,9 +29,9 @@ Description:
         Time.now.utc.to_s(:number)
       end
 
-      def copy_config_readme
-        copy_file "config/typus/README"
-      end
+      # def copy_config_readme
+      #   copy_file "config/typus/README"
+      # end
 
       def generate_initializer
         template "config/initializers/typus.rb", "config/initializers/typus.rb"
