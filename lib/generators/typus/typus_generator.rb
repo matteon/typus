@@ -40,8 +40,8 @@ Description:
 # AppConfig = Configr::Configuration.configure(YAML.dump(default_configuration.merge(environment_configuration)))
 # FILE
         template "config/configr/default.yml", "config/configr.yml"
-        %w{ development test production }.each do |env|
-          template "config/configr/env.yml", "config/environments/#{env}.yml"
+        %w{ development test production }.each do |e|
+          template "config/configr/env.yml", "config/environments/#{e}.yml"
         end
       end
       
