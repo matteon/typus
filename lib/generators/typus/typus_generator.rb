@@ -29,14 +29,13 @@ Description:
         Time.now.utc.to_s(:number)
       end
       
-      def add_configr_gem
-        gem 'configr',    '1.0.1'
-      end
+      # def add_configr_gem
+      #   gem 'configr',    '1.0.1'
+      # end
       
       def generate_configr_configuration_files
-        copy_file 'config/initializers/configr.rb'
-
-        create_file 'config/configr.yml'
+        # copy_file 'config/initializers/configr.rb'
+        # create_file 'config/configr.yml'
         append_file 'config/configr.yml', <<-FILE
 developer:
   name: "Your Company"
@@ -44,14 +43,14 @@ developer:
 admin:
   email: "admin@email.here"        
 FILE
-        %w( development test production ).each do |e|
-          copy_file "config/configr/env.yml", "config/environments/#{e}.yml"
-        end
+        # %w( development test production ).each do |e|
+        #   copy_file "config/configr/env.yml", "config/environments/#{e}.yml"
+        # end
       end
       
-      def add_paperclip_gem
-        gem 'paperclip',  '2.3.3'
-      end
+      # def add_paperclip_gem
+      #   gem 'paperclip',  '2.3.3'
+      # end
 
       def generate_initializer
         template "config/initializers/typus.rb", "config/initializers/typus.rb"
