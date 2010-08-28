@@ -1,0 +1,14 @@
+<% if item.errors.any? %>
+  <div id="errorExplanation">
+    <%-
+    count = item.errors.count
+    error_string = (count > 1) ? 'Errors' : 'Error'
+    -%>
+    <h3><%= "#{count} #{_(error_string).downcase}, #{_('Prohibited this page from being saved').downcase}:"%></h3>
+    <ul>
+    <% item.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+    </ul>
+  </div>
+<% end %>

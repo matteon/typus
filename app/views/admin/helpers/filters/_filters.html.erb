@@ -1,11 +1,7 @@
 <div id="filters">
-
   <ul>
-
     <%= form_tag nil, :method => :get do %>
-
       <% filters.each do |filter| %>
-
         <li>
           <select name="<%= filter[:filter] %>">
             <option value=""><%= filter[:message] %></option>
@@ -15,17 +11,11 @@
             <% end %>
           </select>
         </li>
-
       <% end %>
-
     <%= hidden_field_tag :search, params[:search] %>
-
     <li>
       <%= submit_tag _("Filter"), :name => nil %>
     </li>
-
     <% end %>
-
   </ul>
-
 </div>

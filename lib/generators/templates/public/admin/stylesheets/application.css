@@ -1,11 +1,15 @@
-/* Place your application-specific stylesheets for the admin panel here */
-
 /*
 .logo {
   height: 50px;
   width: 150px;
-  background: transparent url(/images/logo.gif) no-repeat;
+  background: transparent url(/images/logo.png) no-repeat;
   text-indent: -10000px;
 }
-
+.provider {
+  width: 80px;
+  margin: auto;
+  padding-left: 20px;
+  text-align: center;
+  background: url('/images/developer.png') left center no-repeat;
+}
 */
