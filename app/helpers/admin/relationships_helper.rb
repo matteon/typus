@@ -161,32 +161,30 @@ module Admin
 
       back_to = url_for(:controller => params[:controller], :action => params[:action], :id => params[:id])
 
-      related = @resource.reflect_on_association(attribute.to_sym).class_name.constantize
-      related_fk = @resource.reflect_on_association(attribute.to_sym).primary_key_name
+      related_class   = @resource.reflect_on_association(attribute.to_sym).class_name.constantize
+      releted_options = @resource.reflect_on_association(attribute.to_sym).options
+      related_fk      = @resource.reflect_on_association(attribute.to_sym).primary_key_name
 
       confirm = [ _("Are you sure you want to leave this page?"),
                   _("If you have made any changes to the fields without clicking the Save/Update entry button, your changes will be lost."),
                   _("Click OK to continue, or click Cancel to stay on this page.") ]
 
-      message = link_to _("Add"), { :controller => "admin/#{related.to_resource}",
-                                    :action => 'new',
-                                    :back_to => back_to,
-                                    :selected => related_fk },
-                                    :confirm => confirm.join("\n\n") if @current_user.can?('create', related)
+      message = link_to _("Add"), { :controller => "admin/#{related_class.to_resource}",
+                                    :action     => 'new',
+                                    :back_to    => back_to,
+                                    :selected   => related_fk },
+                                    :confirm    => confirm.join("\n\n") if @current_user.can?('create', related_class)
 
       render "admin/templates/belongs_to",
-             :resource => @resource,
-             :form => form,
-             :related_fk => related_fk,
-             :message => message,
-             :label_text => @resource.human_attribute_name(attribute),
-             :values => related.all(:order => related.typus_order_by).collect { |p| [p.to_label, p.id] },
-             # :html_options => { :disabled => attribute_disabled?(attribute) },
-             :html_options => {},
-             :options => { :include_blank => true }
-
+             :resource        => @resource,
+             :form            => form,
+             :related_fk      => related_fk,
+             :message         => message,
+             :label_text      => @resource.human_attribute_name(attribute),
+             :values          => related_class.all(:conditions => releted_options[:conditions], :order => related_class.typus_order_by).collect { |p| [p.to_label, p.id] },
+             # :html_options  => { :disabled => attribute_disabled?(attribute) },
+             :html_options    => {},
+             :options         => { :include_blank => true }
     end
-
   end
-
 end
