@@ -50,25 +50,23 @@ module Admin
     end
 
     def date_filter(request, filter)
-      values = %w(today last_few_days last_7_days last_30_days)
+      values  = %w(today last_few_days last_7_days last_30_days)
       values_humanized = values.map { |v| _(v.humanize) }
-      items = values.to_hash_with(values_humanized)
+      items   = values.to_hash_with(values_humanized)
       message = _("Show all dates")
-
       return filter, items, message
     end
 
     def boolean_filter(request, filter)
-      items = @resource.typus_boolean(filter)
-      message = _("Show by %{attribute}", :attribute => filter)
+      items   = @resource.typus_boolean(filter)
+      message = _("Show by %{attribute}", :attribute => @resource.human_attribute_name(filter).downcase)
       return filter, items, message
     end
 
     def string_filter(request, filter)
-      values = @resource::const_get(filter.to_s.upcase)
-      items = values.kind_of?(Hash) ? values : values.to_hash_with(values)
-      message = _("Show by %{attribute}", :attribute => filter)
-
+      values  = @resource::const_get(filter.to_s.upcase)
+      items   = values.kind_of?(Hash) ? values : values.to_hash_with(values)
+      message = _("Show by %{attribute}", :attribute => @resource.human_attribute_name(filter).downcase)
       return filter, items, message
     end
 
