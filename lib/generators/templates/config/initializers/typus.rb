@@ -7,7 +7,7 @@ Typus.setup do |config|
   # Configure the e-mail address which will be shown in Admin::Mailer.
   # When this option is define Typus will allow admin users to recover
   # lost passwords.
-  config.mailer_sender = Configurator.admin.email
+  config.mailer_sender = AppConfig.admin.email
 
   # Define file attachment settings.
   config.file_preview = :typus_preview
