@@ -147,6 +147,7 @@ module Typus
     def boot!
 
       # Support extensions
+      require "support/nil_class"
       require "support/active_record"
       require "support/array"
       require "support/hash"
