@@ -1,0 +1,79 @@
+<%#
+3 params needed
+* item
+* association
+* fields to show
+1 optional field
+* truncate_length (default => 20)
+
+For belongs_to, has_many, habtm association fields, you MUST have a display_name field
+%>
+
+<%-
+truncate_length   ||= 20
+association         = association.to_sym
+associated_klass    = association.to_s.classify.constantize
+associated_options  = @resource.reflect_on_association(association).options
+associated_items    = item.send(association).select(:id).map(&:id)
+-%>
+
+<%= label_tag(association, associated_klass.model_name.human, :style => 'float: left') %>
+<div class="loader">&nbsp;<%#= "#{_('Loading')}..." %></div>
+<div class="clear"></div>
+
+<input type="text" name="search" value="" id="<%= association %>_search" />
+<div class="clear"></div>
+<table id="<%= association %>">
+  <thead>
+    <tr> 
+      <th style="width: 20px"><input type="checkbox" class="checkall" /></th>
+      <% fields.each do |field| %>
+      <th><%= associated_klass.human_attribute_name(field) %></th>
+      <% end %>
+    </tr>
+  </thead>
+  <tbody>
+    <% associated_klass.all(:conditions => associated_options, :order => associated_klass.typus_order_by).each do |association_item| %>
+    <tr>
+      <td>
+        <%= check_box_tag("#{association}[]", association_item.id, associated_items.include?(association_item.id), :class => 'to_checkall') %>
+      </td>
+      <% fields.each do |field| %>
+      <td>
+        <%= 
+          association_field = association_item.send(field)
+          association_field = if association_field.is_a?(Array)
+            association_field.map { |element| (name = element.respond_to?('display_name')) ? name : element.to_s }.join(', ')
+          else
+            (name = association_field.respond_to?('display_name')) ? name : association_field.to_s
+          end
+          truncate(association_field, truncate_length)
+        %>
+      </td>
+      <% end-%>
+    </tr>
+    <% end-%>
+  </tbody>
+</table>
+
+<script type="text/javascript" charset="utf-8">
+  $(function () {
+    setCheckAll("#<%= association %>");
+    $('#<%= association %> .to_checkall').click(function () {
+  		setCheckAll();
+  	});
+  	
+  	$('#<%= association %> .checkall').click(function () {
+  		$('#<%= association %> .to_checkall:visible').attr('checked', this.checked);
+  	});
+  	
+  	$('#<%= association %>_search').quicksearch('#<%= association %> tbody tr', {
+    	'delay': 500,
+    	'stripeRows': ['odd', 'even'],
+    	'loader': 'div.loader',
+    	'onAfter': function (data) {
+    	  setCheckAll();
+      };
+    });
+  });
+</script>

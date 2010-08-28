@@ -304,5 +304,20 @@ class Admin::ResourcesController < AdminController
     folder = (File.exist?("app/views/admin/#{resource}/#{template}.html.erb")) ? resource : 'resources'
     render "admin/#{folder}/#{template}"
   end
-
+  
+  ##
+  # Update item's associations
+  # 
+  def update_associations(*associations)
+    associations.each do |association|
+      associated_klass = association.to_s.classify.constantize
+      unless (associations_id = params[association]).empty?
+        old_associations = @item.send(association)
+        new_associations = associated_klass.where("id IN (#{associations_id.reject{|u| u.to_i.zero? }.join(',')})")
+        @item.send(association) = new_associations if old_associations != new_associations
+      else
+        @item.send(association) = []
+      end
+    end
+  end
 end
