@@ -14,7 +14,7 @@ module Typus
 
       Typus.reload!
 
-      class_option :admin_title, :default => Rails.root.basename
+      class_option :admin_title, :default => Rails.root.basename.capitalize
 
       desc <<-DESC
 Description:
@@ -28,10 +28,6 @@ Description:
       def self.next_migration_number(path)
         Time.now.utc.to_s(:number)
       end
-
-      # def copy_config_readme
-      #   copy_file "config/typus/README"
-      # end
 
       def generate_initializer
         template "config/initializers/typus.rb", "config/initializers/typus.rb"
