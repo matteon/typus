@@ -82,9 +82,9 @@ FILE
         unless configuration[:base].empty?
           %w( .yml _roles.yml ).each do |file|
             prepend = "config/typus"
-            from    = File.join(preprend, "application#{file}")
-            to      = File.join(preprend, "config/typus/typus#{file}")
-            to      = File.join(preprend, "#{timestamp}_typus#{file}") if File.exists?(to)
+            from    = File.join(prepend, "application#{file}")
+            to      = File.join(prepend, "typus#{file}")
+            to      = File.join(prepend, "#{timestamp}_typus#{file}") if File.exists?(to)
             @configuration = configuration
             template from, to
           end
