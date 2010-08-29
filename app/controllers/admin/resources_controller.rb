@@ -61,7 +61,7 @@ class Admin::ResourcesController < AdminController
   #
   def create
     @item ||= @resource.new
-    @item.update_attributes(params[@object_name])
+    @item.attributes = params[@object_name]
 
     set_attributes_on_create
 
