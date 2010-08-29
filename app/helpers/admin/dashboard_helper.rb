@@ -5,7 +5,7 @@ module Admin
     def applications
       apps = {}
 
-      Typus.models.each do |model|
+      Typus.models.sort {|a,b| a.constantize.model_name.human <=> b.constantize.model_name.human}.each do |model|
         # Get the application name.
         app_name = model.constantize.typus_application
         # Initialize the application if needed.
