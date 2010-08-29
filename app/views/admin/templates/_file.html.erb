@@ -1,8 +1,7 @@
 <%
-
   # attachment = attribute.split('_file_name').first
-
-  if !@item.class.validators.map { |i| i.class }.include?(ActiveModel::Validations::PresenceValidator) && @item.send(attribute).exists?
+  presence_validator = @item.class.validators.select{ |validator| validator.class.to_s == 'ActiveModel::Validations::PresenceValidator' }.first
+  if @item.send(attribute).exists? && !(presence_validator && presence_validator.attributes.include?(attribute.to_sym))
     message = _("Remove %{attribute}", :attribute => @item.class.human_attribute_name(attribute).downcase)
     label_text << <<-HTML
  <small>#{link_to message, { :action => 'detach',
@@ -11,9 +10,7 @@
                              :confirm => _("Are you sure?")}</small>
     HTML
   end
-
 %>
-
 <li>
   <%= form.label attribute, raw(label_text) %>
   <%= form.file_field attribute, options %>
