@@ -44,7 +44,7 @@ module Admin
       values_labelized = values.map { |v| v.to_label }
       items = values.map(&:id).to_hash_with(values_labelized)
 
-      message = _("View all %{attribute}", :attribute => filter.pluralize)
+      message = _("View all %{attribute}", :attribute => @resource.human_attribute_name(filter).downcase.pluralize)
 
       return filter, items, message
     end
