@@ -81,9 +81,10 @@ FILE
         configuration = generate_yaml_files
         unless configuration[:base].empty?
           %w( .yml _roles.yml ).each do |file|
-            from  = "application#{file}"
-            to    = "typus#{file}"
-            if File.exists?(to) then to = "config/typus/#{timestamp}_typus#{file}" end
+            prepend = "config/typus"
+            from    = File.join(preprend, "application#{file}")
+            to      = File.join(preprend, "config/typus/typus#{file}")
+            to      = File.join(preprend, "#{timestamp}_typus#{file}") if File.exists?(to)
             @configuration = configuration
             template from, to
           end
