@@ -83,7 +83,8 @@ a:hover { color: #333; text-decoration: underline; }
 #header_wrapper #links .left ul li a {
   -webkit-border-radius: 5px;
   background: #242527;
-  padding: 3px 5px;
+  font-size: 11px;
+  padding: 4px 10px;
   text-decoration: none;
 }
 
@@ -152,7 +153,8 @@ a:hover { color: #333; text-decoration: underline; }
   -webkit-border-radius: 0.5em;
   background: #242527;
   color: #FFF;
-  padding: 0.5em;
+  font-size: 11px;
+  padding: 6px 10px;
 }
 
 #sidebar h3 a { color: #FFF; }
@@ -376,6 +378,7 @@ fieldset.buttons { }
   margin: auto;
   padding-left: 20px;
   text-align: center;
+/*  background: url('/images/developer.png') left center no-repeat; */
 }
 
 /* @end */
