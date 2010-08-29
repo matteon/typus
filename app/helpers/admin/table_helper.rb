@@ -1,5 +1,4 @@
 module Admin
-
   module TableHelper
 
     def build_table(model, fields, items, link_options = {}, association = nil)
@@ -78,7 +77,7 @@ module Admin
 
       link_to _(action.capitalize), options
     end
-
+    
     #--
     # This controls the action to perform. If we are on a model list we
     # will remove the entry, but if we inside a model we will remove the
@@ -87,55 +86,77 @@ module Admin
     # Only shown is the user can destroy/unrelate items.
     #++
     def table_action(model, item)
-
-      condition = true
-
       case params[:action]
-      when "index"
-        action = "trash"
-        options = { :action => 'destroy', :id => item.id }
-        method = :delete
-      when "edit", "show"
-        action = "unrelate"
-        options = { :action => 'unrelate', :id => params[:id], :resource => model, :resource_id => item.id }
+      when "index" then table_action_trash(model, item)
+      when "edit", "show" then table_action_unrelate(model, item)
       end
+    end
+    
+    # Return all actions that can be performed
+    #
+    def table_actions(model, item)
+      %w( show edit trash unrelate ).map do |action|
+        send("table_action_#{action}", model, item)
+      end.compact
+    end
+    
+    def table_action_show_or_edit(model, item, action)
+      if @current_user.can?(action, model)
+        link_to(_(action.capitalize),
+                { :controller => "admin/#{item.class.to_resource}",
+                  :action     => action,
+                  :id         => item.id })
+      end
+    end
+    
+    def table_action_show(model, item)
+      table_action_show_or_edit(model, item, 'show')
+    end
+    
+    def table_action_edit(model, item)
+      table_action_show_or_edit(model, item, 'edit')
+    end
 
-      title = _(action.titleize)
-
-      case params[:action]
-      when 'index'
-        condition = if model.typus_user_id? && @current_user.is_not_root?
-                      item.owned_by?(@current_user)
-                    elsif (@current_user.id.eql?(item.id) && model.eql?(Typus.user_class))
-                      false
-                    else
-                      @current_user.can?('destroy', model)
-                    end
-        confirm = _("Remove %{resource}?", :resource => item.class.model_name.human)
-      when 'edit'
+    def table_action_trash(model, item)
+      # Do you want to delete a releted item?
+      logger.info("item.class : #{item.class.inspect}")
+      model = item.class if params[:action] == 'edit'
+      condition = if model.typus_user_id? && @current_user.is_not_root?
+        item.owned_by?(@current_user)
+      else
+        @current_user.can?('destroy', model) unless (@current_user.id.eql?(item.id) && model.eql?(Typus.user_class))
+      end
+      if condition
+        title = _('Trash')
+        link_to(  raw(%(<div class="sprite trash">#{title}</div>)),
+                  { :action => 'destroy', :id => item.id, :controller => "admin/#{model.to_resource}" },
+                  :title    => title,
+                  :confirm  => _("Remove %{resource}?", :resource => item.class.model_name.human),
+                  :method   => :delete)
+      end
+    end
+    
+    def table_action_unrelate(model, item)
+      condition = if params[:action] == 'edit'
         # If we are editing content, we can relate and unrelate always!
-        confirm = _("Unrelate %{unrelate_model} from %{unrelate_model_from}?",
-                    :unrelate_model => model.model_name.human,
-                    :unrelate_model_from => @resource.model_name.human)
-      when 'show'
+        true
+      else
         # If we are showing content, we only can relate and unrelate if we are
         # the owners of the owner record.
         # If the owner record doesn't have a foreign key (Typus.user_fk) we look
         # each item to verify the ownership.
-        condition = if @resource.typus_user_id? && @current_user.is_not_root?
-                      @item.owned_by?(@current_user)
-                    end
-        confirm = _("Unrelate %{unrelate_model} from %{unrelate_model_from}?",
-                    :unrelate_model => model.model_name.human,
-                    :unrelate_model_from => @resource.model_name.human)
+        @item.owned_by?(@current_user) if @resource.typus_user_id? && @current_user.is_not_root?
       end
-
-      message = %(<div class="sprite #{action}">#{_(action.titleize)}</div>)
-
       if condition
-        link_to raw(message), options, :title => title, :confirm => confirm, :method => method
+        title = _('Unrelate')
+        link_to(  raw(%(<div class="sprite unrelate">#{title}</div>)),
+                  options = { :action => 'unrelate', :id => params[:id], :resource => model, :resource_id => item.id },
+                  :title    =>  title,
+                  :confirm  =>  _("Unrelate %{unrelate_model} from %{unrelate_model_from}?",
+                                  :unrelate_model => model.model_name.human,
+                                  :unrelate_model_from => @resource.model_name.human),
+                  :method   =>  :delete)
       end
-
     end
 
     def table_belongs_to_field(attribute, item)
