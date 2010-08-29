@@ -3,9 +3,6 @@ Typus.setup do |config|
   # Authentication: none, http_basic, session
   config.authentication = :session
 
-  # Define the default root.
-  config.master_role = 'Administrator'
-
   # Define relationship table.
   config.relationship = "<%= options[:user_class_name].tableize %>"
 

@@ -22,5 +22,7 @@ Typus.setup do |config|
 
   # Define available languages on the admin interface.
   config.available_locales = [:it, :en]
-
+  
+  # Define the default root.
+  config.master_role = 'Administrator'
 end
