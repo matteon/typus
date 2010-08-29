@@ -4,13 +4,13 @@
 * association
 * fields to show
 1 optional field
-* truncate_length (default => 20)
+* truncate_length (default => 30)
 
 For belongs_to, has_many, habtm association fields, you MUST have a display_name field
 %>
 
 <%-
-truncate_length   ||= 20
+truncate_length   ||= 30
 association         = association.to_sym
 associated_klass    = association.to_s.classify.constantize
 associated_options  = @resource.reflect_on_association(association).options
@@ -33,21 +33,21 @@ associated_items    = item.send(association).select(:id).map(&:id)
     </tr>
   </thead>
   <tbody>
-    <% associated_klass.all(:conditions => associated_options, :order => associated_klass.typus_order_by).each do |association_item| %>
+    <% associated_klass.all(:conditions => associated_options[:conditions], :order => associated_klass.typus_order_by).each do |association_item| %>
     <tr>
       <td>
-        <%= check_box_tag("#{association}[]", association_item.id, associated_items.include?(association_item.id), :class => 'to_checkall') %>
+        <%= check_box_tag("#{association}[]", association_item.id, associated_items.include?(association_item.id), :class => 'to_checkall', :id => nil) %>
       </td>
       <% fields.each do |field| %>
       <td>
         <%= 
           association_field = association_item.send(field)
           association_field = if association_field.is_a?(Array)
-            association_field.map { |element| (name = element.respond_to?('display_name')) ? name : element.to_s }.join(', ')
+            association_field.map { |element| element.respond_to?('display_name') ? element.display_name : element.to_s }.join(', ')
           else
-            (name = association_field.respond_to?('display_name')) ? name : association_field.to_s
+            association_field.respond_to?('display_name') ? association_field.display_name : association_field.to_s
           end
-          truncate(association_field, truncate_length)
+          truncate(association_field, :length => truncate_length)
         %>
       </td>
       <% end-%>
@@ -73,7 +73,7 @@ associated_items    = item.send(association).select(:id).map(&:id)
     	'loader': 'div.loader',
     	'onAfter': function (data) {
     	  setCheckAll();
-      };
+      }
     });
   });
 </script>

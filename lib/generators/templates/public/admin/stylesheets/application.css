@@ -5,9 +5,14 @@
   background: transparent url(/images/logo.png) no-repeat;
   text-indent: -10000px;
 }
-*/
-/* 16x16 logo image
-.provider {
+
+.logo a{
+  display: block;
+  height: 50px;
+  width: 150px;
+}
+
+.developer {
   background: url('/images/developer.png') left center no-repeat;
 }
 */

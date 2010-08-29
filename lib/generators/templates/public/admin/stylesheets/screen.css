@@ -364,7 +364,7 @@ fieldset.buttons { }
   float: left;
   width: 16px;
   height: 16px;
-  background: url('/images/loader.gif') center center no-repeat;
+  background: url('/admin/images/loader.gif') center center no-repeat;
 }
 
 /* @end */
