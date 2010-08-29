@@ -104,6 +104,7 @@ it:
   "Unrelate %{unrelate_model} from %{unrelate_model_from}?": "Vuoi rimuovere la relazione tra %{unrelate_model} e %{unrelate_model_from}?"
   "Up": "Su"
 
+  "View all %{attribute}": "Filtra per %{attribute}"
   "View site": "Visita il sito"
 
   "You're adding a new %{resource_from}": "Stai inserendo un nuovo %{resource_from}"
