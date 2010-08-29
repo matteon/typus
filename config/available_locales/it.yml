@@ -97,6 +97,7 @@ it:
   "There are no %{records} under this filter": "Non ci sono %{records} con questo filtro"
   "Today": "Oggi"
   "Toggle is disabled": "La modifica è disabilitata"
+  "Trash": "Elimina"
   "True": "Vero"
 
   "Unrelate": "Rimuovi relazione"
