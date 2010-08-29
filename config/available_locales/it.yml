@@ -99,7 +99,7 @@ it:
   "Toggle is disabled": "La modifica è disabilitata"
   "True": "Vero"
 
-  "Unrelate %{unrelate_model} from %{unrelate_model_from}?":
+  "Unrelate %{unrelate_model} from %{unrelate_model_from}?": "Vuoi rimuovere la relazione tra %{unrelate_model} e %{unrelate_model_from}?"
   "Up": "Su"
 
   "View site": "Visita il sito"
