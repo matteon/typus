@@ -119,7 +119,6 @@ module Admin
 
     def table_action_trash(model, item)
       # Do you want to delete a releted item?
-      logger.info("item.class : #{item.class.inspect}")
       model = item.class if params[:action] == 'edit'
       condition = if model.typus_user_id? && @current_user.is_not_root?
         item.owned_by?(@current_user)
