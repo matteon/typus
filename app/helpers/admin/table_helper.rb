@@ -130,7 +130,7 @@ module Admin
                     :unrelate_model_from => @resource.model_name.human)
       end
 
-      message = %(<div class="sprite #{action}">#{action.titleize}</div>)
+      message = %(<div class="sprite #{action}">#{_(action.titleize)}</div>)
 
       if condition
         link_to raw(message), options, :title => title, :confirm => confirm, :method => method
