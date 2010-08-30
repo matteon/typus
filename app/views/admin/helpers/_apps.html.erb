@@ -1,6 +1,6 @@
 <ul>
   <li><%= link_to _("Dashboard"), admin_dashboard_path %></li>
   <% Typus.applications.each do |app| %>
-    <li><%= link_to _(app), :controller => Typus.application(app).first.tableize %></li>
+    <li><%= link_to _(app), :controller => Typus.application(app).sort {|a,b| a.constantize.model_name.human <=> b.constantize.model_name.human}.first.tableize %></li>
   <% end %>
 </ul>
